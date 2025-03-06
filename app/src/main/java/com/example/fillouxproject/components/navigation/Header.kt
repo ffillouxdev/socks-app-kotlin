@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.fillouxproject.R
 
@@ -46,6 +47,6 @@ fun Header() {
          * Texte affichant le nom de l'application "QuickShop".
          * Positionné à côté du logo.
          */
-        Text("QuickShop", color = Color.Black)
+        Text("QuickShop", color = Color.Black, fontWeight = FontWeight.Bold )
     }
 }
