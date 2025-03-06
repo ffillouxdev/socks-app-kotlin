@@ -10,17 +10,17 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.example.fillouxproject.components.ProductComponent
 import com.example.fillouxproject.components.navigation.Header
 import com.example.fillouxproject.datas.Product
-import com.example.fillouxproject.views.destinations.FormScreenDestination
+import com.example.fillouxproject.destinations.FormScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.result.NavResult
@@ -32,22 +32,22 @@ fun LandingScreen(navigator: DestinationsNavigator, resultRecipient: ResultRecip
     var listOfProducts by rememberSaveable { mutableStateOf(listOf<Product>()) }
 
     resultRecipient.onNavResult {
-        if (it is NavResult.Value){
+        if (it is NavResult.Value) {
             listOfProducts = listOfProducts.plus(it.value)
         }
     }
 
-    fun handleDele(product: Product) {
+    fun handleDelete(product: Product) {
         listOfProducts = listOfProducts.filter { it != product }
     }
 
-    Scaffold {
+    Scaffold { paddingValues ->
         Column {
             Header()
 
             Column(
                 modifier = Modifier
-                    .padding(it)
+                    .padding(paddingValues)
                     .fillMaxWidth()
                     .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -58,7 +58,7 @@ fun LandingScreen(navigator: DestinationsNavigator, resultRecipient: ResultRecip
                 } else {
                     LazyColumn {
                         items(listOfProducts) { product ->
-                            ProductComponent(prod = product, handleDelete = { handleDele(product) })
+                            ProductComponent(prod = product, handleDelete = { handleDelete(product) })
                         }
                     }
                 }

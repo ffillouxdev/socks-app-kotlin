@@ -9,15 +9,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 
 @Composable
-fun EditableTextField(label: String, initialValue: String = "", onValueChange: (String) -> Unit) {
+fun EditableTextField(
+    label: String,
+    initialValue: String = "",
+    required: Boolean = false,
+    onValueChange: (String) -> Unit
+) {
     var value by remember { mutableStateOf(initialValue) }
-
     TextField(
         value = value,
         onValueChange = {
             value = it
             onValueChange(it)
         },
-        label = { Text(label) }
+        label = { Text(text = if (required) "$label *" else label) }
     )
 }

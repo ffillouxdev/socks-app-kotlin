@@ -6,29 +6,28 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberDatePickerState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import kotlinx.coroutines.CoroutineScope
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DatePickerDialogField(label: String, initialValue: String = "", onValueChange: (String) -> Unit) {
-    val snackState = remember { SnackbarHostState() }
-    val snackScope = rememberCoroutineScope()
+fun DatePickerDialogField(
+    label: String,
+    initialValue: String = "",
+    required: Boolean = false,
+    onValueChange: (String) -> Unit,
+    snackbarHostState: SnackbarHostState,
+    scope: CoroutineScope,
+) {
     val openDialog = remember { mutableStateOf(false) }
     var value by remember { mutableStateOf(initialValue) }
 
@@ -48,7 +47,7 @@ fun DatePickerDialogField(label: String, initialValue: String = "", onValueChang
             onValueChange(it)
         },
         enabled = false,
-        label = { Text(label) },
+        label = { Text(text = if (required) "$label *" else label) },
         modifier = Modifier.clickable { openDialog.value = true }
     )
 
@@ -66,8 +65,8 @@ fun DatePickerDialogField(label: String, initialValue: String = "", onValueChang
                 TextButton(
                     onClick = {
                         openDialog.value = false
-                        snackScope.launch {
-                            snackState.showSnackbar(
+                        scope.launch {
+                            snackbarHostState.showSnackbar(
                                 "Date sélectionnée : ${formatDate(datePickerState.selectedDateMillis)}"
                             )
                         }
@@ -91,6 +90,4 @@ fun DatePickerDialogField(label: String, initialValue: String = "", onValueChang
             )
         }
     }
-
-    SnackbarHost(hostState = snackState, Modifier)
 }
