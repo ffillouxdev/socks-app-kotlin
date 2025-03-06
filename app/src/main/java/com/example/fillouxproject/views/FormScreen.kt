@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -14,10 +15,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.fillouxproject.R
 import com.example.fillouxproject.components.*
+import com.example.fillouxproject.components.navigation.Header
 import com.example.fillouxproject.datas.Product
 import com.example.fillouxproject.datas.ProductType
 import com.ramcosta.composedestinations.annotation.Destination
@@ -68,66 +71,82 @@ fun FormScreen(
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
     ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text("Formulaire")
-            Image(painter = picture, contentDescription = null, modifier = Modifier.padding(24.dp))
-            RadioButtons(radioButtonValue = radioButtonValue)
+        Column {
+            Header()
             Column(
                 modifier = Modifier
-                    .padding(16.dp)
+                    .padding(paddingValues)
                     .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.Center
             ) {
-                EditableTextField(
-                    label = "Nom du produit",
-                    initialValue = nomProduit.value,
-                    required = true,
-                    onValueChange = { nomProduit.value = it }
+                Text("Formulaire")
+                Image(
+                    painter = picture,
+                    contentDescription = null,
+                    modifier = Modifier.padding(24.dp)
                 )
-                DatePickerDialogField(
-                    label = "Date d'achat",
-                    initialValue = dateAchat.value,
-                    onValueChange = { dateAchat.value = it },
-                    snackbarHostState = snackbarHostState,
-                    scope = scope,
-                    required = true
-                )
-                EditableTextField(
-                    label = "Couleur",
-                    initialValue = couleur.value,
-                    required = false,
-                    onValueChange = { couleur.value = it }
-                )
-                EditableTextField(
-                    label = "Pays d'origine",
-                    initialValue = paysOrigine.value,
-                    required = false,
-                    onValueChange = { paysOrigine.value = it }
-                )
-            }
-            CheckboxFavori(checkBoxValue = checkBoxValue)
-            Button(
-                onClick = { onValidate() },
-                modifier = Modifier.wrapContentSize()
-            ) {
-                Text(text = "Valider")
-            }
+                RadioButtons(radioButtonValue = radioButtonValue)
+                Column(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    EditableTextField(
+                        label = "Nom du produit",
+                        initialValue = nomProduit.value,
+                        required = true,
+                        onValueChange = { nomProduit.value = it }
+                    )
+                    DatePickerDialogField(
+                        label = "Date d'achat",
+                        initialValue = dateAchat.value,
+                        onValueChange = { dateAchat.value = it },
+                        snackbarHostState = snackbarHostState,
+                        scope = scope,
+                        required = true
+                    )
+                    EditableTextField(
+                        label = "Couleur",
+                        initialValue = couleur.value,
+                        required = false,
+                        onValueChange = { couleur.value = it }
+                    )
+                    EditableTextField(
+                        label = "Pays d'origine",
+                        initialValue = paysOrigine.value,
+                        required = false,
+                        onValueChange = { paysOrigine.value = it }
+                    )
+                }
+                CheckboxFavori(checkBoxValue = checkBoxValue)
+                Button(
+                    onClick = { onValidate() },
+                    modifier = Modifier.wrapContentSize(),
+                    colors = ButtonDefaults.buttonColors(Color(0xFFFBB03C)),
+                    ) {
+                    Text(
+                        text = "Valider",
+                        color = Color.Black
+                    )
+                }
 
-            if (shouldShowDialog.value) {
-                MyAlertDialog(
-                    shouldShowDialog = shouldShowDialog,
-                    radioButtonValue = radioButtonValue.value,
-                    textFieldsValues = listOf(nomProduit.value, dateAchat.value, couleur.value, paysOrigine.value),
-                    checkBoxValue = checkBoxValue.value,
-                    handleAdd = { handleNavigation() }
-                )
+                if (shouldShowDialog.value) {
+                    MyAlertDialog(
+                        shouldShowDialog = shouldShowDialog,
+                        radioButtonValue = radioButtonValue.value,
+                        textFieldsValues = listOf(
+                            nomProduit.value,
+                            dateAchat.value,
+                            couleur.value,
+                            paysOrigine.value
+                        ),
+                        checkBoxValue = checkBoxValue.value,
+                        handleAdd = { handleNavigation() }
+                    )
+                }
             }
         }
     }

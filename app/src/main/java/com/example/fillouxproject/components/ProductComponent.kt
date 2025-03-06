@@ -19,7 +19,7 @@ import com.example.fillouxproject.R
 import com.example.fillouxproject.datas.Product
 
 @Composable
-fun ProductComponent(prod: Product, handleDelete: () -> Unit) {
+fun ProductComponent(prod: Product, handleDelete: () -> Unit, handleModify: () -> Unit) {
     val picture = painterResource(R.drawable.socks1)
     val context = LocalContext.current
 
@@ -32,6 +32,9 @@ fun ProductComponent(prod: Product, handleDelete: () -> Unit) {
                 },
                 onTap = {
                     Toast.makeText(context, "Product: ${prod.name} clicked", Toast.LENGTH_SHORT).show()
+                },
+                onDoubleTap = {
+                    handleModify()
                 }
             )
         }

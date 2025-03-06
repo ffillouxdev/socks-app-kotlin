@@ -26,7 +26,7 @@ fun RadioButtons(radioButtonValue: MutableState<ProductType>) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            "Other",
+            "Autre",
             modifier = Modifier.padding(12.dp),
             fontSize = 12.sp,
             color = Color.Black
@@ -34,8 +34,8 @@ fun RadioButtons(radioButtonValue: MutableState<ProductType>) {
         RadioButton(
             selected = radioButtonValue.value == ProductType.Other,
             onClick = { radioButtonValue.value = ProductType.Other },
-            colors = RadioButtonDefaults.colors()
-        )
+            colors = RadioButtonDefaults.colors(Color(0xFFFBB03C))
+            )
         Text(
             ProductType.Consumable.label,
             modifier = Modifier.padding(12.dp),
@@ -45,7 +45,7 @@ fun RadioButtons(radioButtonValue: MutableState<ProductType>) {
         RadioButton(
             selected = radioButtonValue.value == ProductType.Consumable,
             onClick = { radioButtonValue.value = ProductType.Consumable },
-            colors = RadioButtonDefaults.colors()
+            colors = RadioButtonDefaults.colors(Color(0xFFFBB03C))
         )
         Text(
             "Durable",
@@ -56,7 +56,7 @@ fun RadioButtons(radioButtonValue: MutableState<ProductType>) {
         RadioButton(
             selected = radioButtonValue.value == ProductType.Durable,
             onClick = { radioButtonValue.value = ProductType.Durable },
-            colors = RadioButtonDefaults.colors()
+            colors = RadioButtonDefaults.colors(Color(0xFFFBB03C))
         )
     }
 }

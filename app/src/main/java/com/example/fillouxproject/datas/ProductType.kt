@@ -9,6 +9,6 @@ enum class ProductType {
         get() = when(this) {
             Consumable -> "Consumable"
             Durable -> "Durable"
-            Other -> "Autre"
+            Other -> "Outre"
         }
 }

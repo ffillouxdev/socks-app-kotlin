@@ -3,6 +3,7 @@ package com.example.fillouxproject.components
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -31,7 +32,6 @@ fun MyAlertDialog(
                         Text(text = "textfield $i: ${textFieldsValues[i]}")
                     }
 
-                    // Show the result of isFavori function
                     Text(text = "le produit ${isFavori(checkBoxValue)}")
                 }
             },
@@ -40,11 +40,12 @@ fun MyAlertDialog(
                     onClick = {
                         shouldShowDialog.value = false
                         handleAdd()
-                    }
-                ) {
+                    },
+                    colors = ButtonDefaults.buttonColors(Color(0xFFFBB03C)),
+                    ) {
                     Text(
-                        text = "Confirm",
-                        color = Color.White
+                        text = "Confirmer",
+                        color = Color.Black
                     )
                 }
             }
