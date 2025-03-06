@@ -10,12 +10,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
+/**
+ * Composable représentant une ligne de séparation horizontale.
+ * Affiche une ligne grise centrée horizontalement pour séparer visuellement le contenu.
+ *
+ * @author Filloux
+ */
 @Composable
 fun HorizontalHr() {
     Box(
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center
     ) {
+        /**
+         * Séparateur horizontal.
+         * Utilisé pour séparer visuellement différentes sections de l'interface utilisateur.
+         */
         HorizontalDivider(
             color = Color.Gray,
             thickness = 1.dp,

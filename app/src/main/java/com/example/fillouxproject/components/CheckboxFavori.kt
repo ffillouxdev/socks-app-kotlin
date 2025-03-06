@@ -14,6 +14,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
+/**
+ * Composable représentant une case à cocher pour ajouter un produit aux favoris.
+ * Affiche une case à cocher avec un texte descriptif.
+ *
+ * @param checkBoxValue État mutable indiquant si la case est cochée ou non.
+ * @author Filloux
+ */
 @Composable
 fun CheckboxFavori(checkBoxValue: MutableState<Boolean>) {
     Row(
@@ -23,6 +30,10 @@ fun CheckboxFavori(checkBoxValue: MutableState<Boolean>) {
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
     ) {
+        /**
+         * Case à cocher permettant d'ajouter ou de retirer un produit des favoris.
+         * La couleur change en fonction de l'état coché ou non.
+         */
         Checkbox(
             checked = checkBoxValue.value,
             onCheckedChange = { checkBoxValue.value = it },
@@ -32,7 +43,10 @@ fun CheckboxFavori(checkBoxValue: MutableState<Boolean>) {
                 checkmarkColor = Color.Black
             )
         )
-
+        /**
+         * Texte descriptif associé à la case à cocher.
+         * Indique l'action d'ajouter aux favoris.
+         */
         Text("Ajouter aux favoris")
     }
 }

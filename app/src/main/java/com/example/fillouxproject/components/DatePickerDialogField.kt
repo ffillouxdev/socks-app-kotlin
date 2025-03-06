@@ -18,6 +18,18 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlinx.coroutines.launch
 
+/**
+ * Composable représentant un champ de sélection de date avec un dialogue.
+ * Permet à l'utilisateur de sélectionner une date via un dialogue de sélection de date.
+ *
+ * @param label Libellé du champ de texte.
+ * @param initialValue Valeur initiale du champ de texte.
+ * @param required Indique si le champ est obligatoire.
+ * @param onValueChange Fonction appelée lorsque la valeur du champ change.
+ * @param snackbarHostState État du Snackbar pour afficher des messages.
+ * @param scope CoroutineScope pour lancer des coroutines.
+ * @author Filloux
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DatePickerDialogField(
@@ -28,9 +40,22 @@ fun DatePickerDialogField(
     snackbarHostState: SnackbarHostState,
     scope: CoroutineScope,
 ) {
+    /**
+     * État indiquant si le dialogue de sélection de date est ouvert.
+     */
     val openDialog = remember { mutableStateOf(false) }
+
+    /**
+     * Valeur actuelle du champ de texte, formatée en date.
+     */
     var value by remember { mutableStateOf(initialValue) }
 
+    /**
+     * Formate une date en chaîne de caractères.
+     *
+     * @param millis Temps en millisecondes à formater.
+     * @return Date formatée en chaîne de caractères (dd/MM/yyyy).
+     */
     fun formatDate(millis: Long?): String {
         return millis?.let {
             val calendar = Calendar.getInstance()
@@ -52,7 +77,14 @@ fun DatePickerDialogField(
     )
 
     if (openDialog.value) {
+        /**
+         * État du sélecteur de date.
+         */
         val datePickerState = rememberDatePickerState()
+
+        /**
+         * Indique si le bouton de confirmation est activé.
+         */
         val confirmEnabled = remember {
             derivedStateOf { datePickerState.selectedDateMillis != null }
         }
