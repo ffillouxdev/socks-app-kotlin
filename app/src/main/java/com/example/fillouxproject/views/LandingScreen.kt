@@ -42,11 +42,32 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.result.NavResult
 import com.ramcosta.composedestinations.result.ResultRecipient
 
+/**
+ * Écran principal de l'application affichant la liste des produits.
+ * Permet d'ajouter, modifier et supprimer des produits.
+ *
+ * @param navigator Gestionnaire de navigation.
+ * @param resultRecipient Réception des résultats de l'écran de formulaire.
+ */
 @Destination(start = true)
 @Composable
-fun LandingScreen(navigator: DestinationsNavigator, resultRecipient: ResultRecipient<FormScreenDestination, Product>) {
+fun LandingScreen(
+    navigator: DestinationsNavigator,
+    resultRecipient: ResultRecipient<FormScreenDestination, Product>
+) {
+    /**
+     * Liste des produits affichés à l'écran.
+     */
     var listOfProducts by rememberSaveable { mutableStateOf(listOf<Product>()) }
+
+    /**
+     * Requête de recherche pour filtrer les produits.
+     */
     var searchQuery by rememberSaveable { mutableStateOf("") }
+
+    /**
+     * Image affichée lorsqu'aucun produit n'est disponible.
+     */
     val picture = painterResource(R.drawable.no_product_icon)
 
     resultRecipient.onNavResult {
@@ -55,24 +76,44 @@ fun LandingScreen(navigator: DestinationsNavigator, resultRecipient: ResultRecip
         }
     }
 
+    /**
+     * Supprime un produit de la liste.
+     * @param product Produit à supprimer.
+     */
     fun handleDelete(product: Product) {
         listOfProducts = listOfProducts.filter { it != product }
     }
 
+    /**
+     * Modifie un produit en mettant à jour son nom.
+     * @param product Produit à modifier.
+     */
     fun handleModify(product: Product) {
         val newList = listOfProducts.map { if (it == product) it.copy(name = "Produit modifié") else it }
         listOfProducts = newList
     }
 
+    /**
+     * Liste des produits filtrés par la recherche.
+     */
     val filteredProducts = listOfProducts.filter {
         it.name.contains(searchQuery, ignoreCase = true)
     }
 
+    /**
+     * Liste des produits favoris.
+     */
     val favoriteProducts = listOfProducts.filter { it.favorite }
 
     Scaffold { paddingValues ->
         Column {
+            /**
+             * Composant d'en-tête de l'application
+             */
             Header()
+            /**
+             * Bar de recherche
+              */
             TextField(
                 value = searchQuery,
                 onValueChange = { searchQuery = it },
@@ -81,6 +122,9 @@ fun LandingScreen(navigator: DestinationsNavigator, resultRecipient: ResultRecip
                     .fillMaxWidth()
                     .padding(16.dp)
             )
+            /**
+             * Texte qui renvoi Produits favoris
+             */
             Text("Produits favoris", modifier = Modifier.padding(16.dp))
             if (favoriteProducts.isNotEmpty()) {
                 LazyRow(
@@ -94,18 +138,26 @@ fun LandingScreen(navigator: DestinationsNavigator, resultRecipient: ResultRecip
                     }
                 }
             } else {
-                Column (
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    /**
+                     * Icon quand il n'y a pas de produit favori
+                     */
                     Image(painter = picture, contentDescription = null, modifier = Modifier.size(120.dp))
                     Text("Vous n'avez aucun produit en favori ici.", modifier = Modifier.padding(16.dp), textAlign = TextAlign.Center)
                 }
             }
+
+             /**
+              * Ligne de séparation
+              */
             HorizontalHr()
-            Text("Tout les produits", modifier = Modifier.padding(16.dp))
+
+            Text("Tous les produits", modifier = Modifier.padding(16.dp))
             Box(
                 modifier = Modifier
                     .padding(paddingValues)
@@ -114,16 +166,19 @@ fun LandingScreen(navigator: DestinationsNavigator, resultRecipient: ResultRecip
                     .verticalScroll(rememberScrollState()),
                 contentAlignment = Alignment.Center
             ) {
-            Column(
+                Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     if (filteredProducts.isEmpty()) {
-                        Column (
+                        Column(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(16.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
+                            /**
+                             * Icon quand il n'y a pas de produit
+                             */
                             Image(painter = picture, contentDescription = null, modifier = Modifier.size(120.dp))
                             Text(
                                 "Vous n'avez aucun produit ici.",
@@ -131,31 +186,34 @@ fun LandingScreen(navigator: DestinationsNavigator, resultRecipient: ResultRecip
                                 textAlign = TextAlign.Center
                             )
                         }
-
                     } else {
                         filteredProducts.forEach { product ->
                             ProductComponent(prod = product, handleDelete = { handleDelete(product) }, handleModify = { handleModify(product) })
                         }
                     }
                 }
-
             }
+
+
             Box(
-                modifier = Modifier
-                    .fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ) {
+                /**
+                 * Bouton pour accéder à l'écran d'ajout de produit
+                 */
                 Button(
                     colors = ButtonDefaults.buttonColors(Color(0xFFFBB03C)),
                     onClick = { navigator.navigate(FormScreenDestination) }
                 ) {
+                    /**
+                     * Texte qui renvoi dans le bouton cliquer pour démarrer
+                     */
                     Text(
                         text = "Cliquer pour démarrer",
                         color = Color.Black
                     )
                 }
-
-
             }
         }
     }

@@ -17,6 +17,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.fillouxproject.datas.ProductType
 
+/**
+ * Composable représentant un groupe de boutons radio pour sélectionner le type de produit.
+ * Affiche les options de type de produit avec des boutons radio.
+ *
+ * @param radioButtonValue État mutable indiquant le type de produit sélectionné.
+ * @author Filloux
+ */
 @Composable
 fun RadioButtons(radioButtonValue: MutableState<ProductType>) {
     Row(Modifier
@@ -25,6 +32,9 @@ fun RadioButtons(radioButtonValue: MutableState<ProductType>) {
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
+        /**
+         * Option "Autre" pour le type de produit.
+         */
         Text(
             "Autre",
             modifier = Modifier.padding(12.dp),
@@ -36,6 +46,10 @@ fun RadioButtons(radioButtonValue: MutableState<ProductType>) {
             onClick = { radioButtonValue.value = ProductType.Other },
             colors = RadioButtonDefaults.colors(Color(0xFFFBB03C))
             )
+
+        /**
+         * Option "Consommable" pour le type de produit.
+         */
         Text(
             ProductType.Consumable.label,
             modifier = Modifier.padding(12.dp),
@@ -47,6 +61,9 @@ fun RadioButtons(radioButtonValue: MutableState<ProductType>) {
             onClick = { radioButtonValue.value = ProductType.Consumable },
             colors = RadioButtonDefaults.colors(Color(0xFFFBB03C))
         )
+        /**
+         * Option "Durable" pour le type de produit.
+         */
         Text(
             "Durable",
             modifier = Modifier.padding(12.dp),
